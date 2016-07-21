@@ -29,20 +29,34 @@ public class GreetingServiceBean implements GreetingService {
 
     @Override
     public Collection<Greeting> findAll() {
+        logger.info("> findAll");
+
         Collection<Greeting> greetings = greetingRepository.findAll();
+
+        logger.info("< findAll");
         return greetings;
     }
 
     @Override
-    @Cacheable(value = "greetings", key = "#id")
+    @Cacheable(
+            value = "greetings",
+            key = "#id")
     public Greeting findOne(Long id) {
+        logger.info("> findOne id:{}", id);
+
         Greeting greeting = greetingRepository.findOne(id);
+
+        logger.info("< findOne id:{}", id);
         return greeting;
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    @CachePut(value = "greetings", key = "#result.id")
+    @Transactional(
+            propagation = Propagation.REQUIRED,
+            readOnly = false)
+    @CachePut(
+            value = "greetings",
+            key = "#result.id")
     public Greeting create(Greeting greeting) {
         logger.info("> create");
 
@@ -64,8 +78,12 @@ public class GreetingServiceBean implements GreetingService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    @CachePut(value = "greetings", key = "#greeting.id")
+    @Transactional(
+            propagation = Propagation.REQUIRED,
+            readOnly = false)
+    @CachePut(
+            value = "greetings",
+            key = "#greeting.id")
     public Greeting update(Greeting greeting) {
         logger.info("> update id:{}", greeting.getId());
 
@@ -87,17 +105,27 @@ public class GreetingServiceBean implements GreetingService {
         return updatedGreeting;
     }
 
-
     @Override
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    @CacheEvict(value = "greetings", key = "#id")
+    @Transactional(
+            propagation = Propagation.REQUIRED,
+            readOnly = false)
+    @CacheEvict(
+            value = "greetings",
+            key = "#id")
     public void delete(Long id) {
+        logger.info("> delete id:{}", id);
+
         greetingRepository.delete(id);
+
+        logger.info("< delete id:{}", id);
     }
 
     @Override
-    @CacheEvict(value = "greetings", allEntries = true)
+    @CacheEvict(
+            value = "greetings",
+            allEntries = true)
     public void evictCache() {
-
+        logger.info("> evictCache");
+        logger.info("< evictCache");
     }
 }
