@@ -17,8 +17,6 @@ import java.util.concurrent.Future;
 @RestController
 public class GreetingController extends BaseController {
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-
     /**
      * The GreetingService business service.
      */
